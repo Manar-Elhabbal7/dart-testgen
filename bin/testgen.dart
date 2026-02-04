@@ -353,5 +353,24 @@ Future<void> main(List<String> arguments) async {
   }
 
   await testGenerator.dispose();
+
+  // For deleting generated coverage_import_test file
+  final coverageFilePath = path.join(
+    flags.package, 
+    'test', 
+    'testgen', 
+    'coverage_import_test.dart'
+  );
+
+  final coverageFile = File(coverageFilePath);
+
+    if (await coverageFile.exists()) {
+      try {
+        await coverageFile.delete();
+        _logger.info('Coverage file deleted successfully');
+      } catch (e) {
+        _logger.warning('Failed to delete the coverage file: $e');
+      }
+    }
   exit(0);
 }
